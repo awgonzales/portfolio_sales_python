@@ -1,7 +1,9 @@
 from faker import Faker
 
-fake = Faker()
 Faker.seed(0)
+
+fake = Faker()
+
 
 def generate(count:int=10):
     """
