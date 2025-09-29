@@ -19,9 +19,9 @@ def generate(count:int=10):
         last_name = fake.last_name()
         latitude, longitude, county, country, timezone = fake.local_latlng()
         print(first_name, last_name, latitude, longitude, county, county, timezone)
-        person = dict(first_name=first_name, last_name = last_name, latitude =latitude, longitude =longitude, county = county, country = country, timezone =  timezone) 
+        person = dict(first_name=first_name, last_name = last_name, latitude =float(latitude), longitude =float(longitude), county = county, country = country, timezone =  timezone) 
         users.append(person)
     return users
     
 if __name__ == "__main__":
-    print(generate())
+    generate()
