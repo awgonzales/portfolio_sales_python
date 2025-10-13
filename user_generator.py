@@ -1,9 +1,35 @@
 from faker import Faker
+import requests as r
+
+# CONSTSANTS
+
+USER_URL = "https://randomuser.me/api/?nat=us&results=100"
 
 Faker.seed(0)
 
 fake = Faker()
 
+def random_user(count:int = 100):
+    """
+    This creates 100 random users
+    """
+    users = []
+    data = r.get(f"{USER_URL}{count}")
+    results = data.json()
+    for result in results['results']:
+        last_name = result['name']['last']
+        first_name = result['name']['first']
+        city = result['location']['city']
+        state = result['location']['state']
+        latitude = result['location']['coordinates']['latitude']
+        longitude = result['location']['coordinates']['longitude']
+        photo = result['picture']['thumbnail']
+        user = dict(first_name=first_name, last_name = last_name, city = city,
+        state = state, latitude = float(latitude), 
+        longitude = float(longitude), photo = photo)
+        users.append(user)
+
+    return users
 
 def generate(count:int=10):
     """
@@ -24,4 +50,5 @@ def generate(count:int=10):
     return users
     
 if __name__ == "__main__":
-    generate()
+    # generate()
+    print(random_user(count = 10))

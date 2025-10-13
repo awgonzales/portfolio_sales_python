@@ -7,7 +7,7 @@ data = generate(count = 50)
 
 df = pd.DataFrame(data)
 
-st.title("Gaphs Pages")
+st.title("Graphs Pages")
 
 fig = px.pie(df, values = "timezone", names = "first_name")
 
