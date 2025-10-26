@@ -1,7 +1,88 @@
 import streamlit as st
-from user_generator import generate
+from user_generator import random_user
 import pandas as pd
+import plotly.express as px
+import folium 
+from streamlit_folium import st_folium
 
-data = generate(count = 50)
+data = random_user(count = 50)
 
-st.title("Main Page")
+# Map data
+@st.cache_data
+def get_data():
+    """
+    This function will get the data
+    """
+    data = random_user(count = 5)
+    return data
+
+# start point
+us_locations = folium.Map(location = [40, -95], zoom_start = 4)
+
+fake_data = {
+    "Category": ["Yes", "No"],
+    "Values": [20,80]
+}
+
+df = pd.DataFrame(data)
+fake_df = pd.DataFrame(fake_data)
+
+# Page configuration
+st.set_page_config(
+    page_title = "Sales Dashboard",
+    layout = "wide" 
+)
+ # Chart
+st.title("ACME Sales Dashboard")
+
+sales_by_region = px.pie(
+    data_frame = fake_data,
+    values = "Values",
+    names = "Category"
+    #values = df["region"]str.unique(),
+    #names = df["region"].unique()
+)
+
+#sidear
+sales_by_region.show()
+
+st.plotly_chart(sales_by_region)
+
+st_data = st_folium(us_locations, width=850)
+
+for person in data:
+    # TODO: Insert HTML PopUP https://python-visualization.github.io/folium/latest/user_guide/ui_elements/popups.html
+    latitude = person["latitude"]
+    longitude = person["longitude"]
+    location = person["region"]
+    sale = person["sales"]
+    first_name = person["first_name"]
+    last_name = person["last_name"]
+    photo = person["photo"]
+    html = f"""
+            <h5>{first_name} {last_name}</h5><br><img src='{photo}'>
+            <h6>{location}'>
+    """
+    
+    #print(type(latitude), type(longitude))
+    folium.Marker(
+        location = [latitude, longitude],
+        tooltip = "Click Me!",
+        popup = html
+    ).add_to(us_locations)
+
+st.dataframe(data)
+
+st.sidebar.header('Filters')
+state = st.sidebar.multiselect(
+    label="Select State",
+    options = df['state'].unique(),
+    default = df['state'].unique()
+
+)
+
+region = st.sidebar.multiselect(
+    label = "Select Region",
+    options = df['region'].unique(),
+    default = df['region'].unique()
+)

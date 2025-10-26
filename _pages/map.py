@@ -43,6 +43,7 @@ folium.GeoJson(NORTHEAST_GEOJSON,
         "color": "black",
         "weight": 2,
         "dashArray": "5, 5"}).add_to(us_locations)
+
 folium.GeoJson(SOUTH_GEOJSON,
     style_function=lambda feature: {
         "fillColor": "#e72323",
@@ -54,11 +55,14 @@ for person in get_data():
     # TODO: Insert HTML PopUP https://python-visualization.github.io/folium/latest/user_guide/ui_elements/popups.html
     latitude = person["latitude"]
     longitude = person["longitude"]
+    location = person["region"]
+    sale = person["sales"]
     first_name = person["first_name"]
     last_name = person["last_name"]
     photo = person["photo"]
     html = f"""
             <h5>{first_name} {last_name}</h5><br><img src='{photo}'>
+            <h6>{location}'>
     """
     
     #print(type(latitude), type(longitude))
