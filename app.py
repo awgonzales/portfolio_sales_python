@@ -5,7 +5,7 @@ import plotly.express as px
 import folium 
 from streamlit_folium import st_folium
 
-data = random_user(count = 50)
+# data = random_user(count = 5)
 
 # Map data
 @st.cache_data
@@ -13,8 +13,11 @@ def get_data():
     """
     This function will get the data
     """
-    data = random_user(count = 5)
+    data = random_user(count = 10)
     return data
+
+#Dataframe
+data = pd.DataFrame(get_data())
 
 # start point
 us_locations = folium.Map(location = [40, -95], zoom_start = 4)
@@ -24,7 +27,7 @@ fake_data = {
     "Values": [20,80]
 }
 
-df = pd.DataFrame(data)
+df = pd.DataFrame(get_data())
 fake_df = pd.DataFrame(fake_data)
 
 # Page configuration
@@ -50,7 +53,7 @@ st.plotly_chart(sales_by_region)
 
 st_data = st_folium(us_locations, width=850)
 
-for person in data:
+for person in get_data():
     # TODO: Insert HTML PopUP https://python-visualization.github.io/folium/latest/user_guide/ui_elements/popups.html
     latitude = person["latitude"]
     longitude = person["longitude"]
@@ -71,7 +74,7 @@ for person in data:
         popup = html
     ).add_to(us_locations)
 
-st.dataframe(data)
+st.dataframe(get_data)
 
 st.sidebar.header('Filters')
 state = st.sidebar.multiselect(
