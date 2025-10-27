@@ -21,10 +21,11 @@ def random_user(count:int = 100):
         first_name = result['name']['first']
         region = fake.random_choices(elements =("Northeast", "Southeast", "Midwest", "Southwest", "West"), length = 1)
         sales =fake.random_int(min=100, max =10000)
-        city = result['location']['city']
-        state = result['location']['state']
-        latitude = result['location']['coordinates']['latitude']
-        longitude = result['location']['coordinates']['longitude']
+        #city = result['location']['city']
+        #state = result['location']['state']
+        #latitude = result['location']['coordinates']['latitude']
+        #longitude = result['location']['coordinates']['longitude']
+        latitude, longitude, city, state , timezone = fake.local_latlng(country_code="US")
         photo = result['picture']['thumbnail']
         user = dict(first_name=first_name, last_name = last_name, region = region[0], sales = sales, city = city,
         state = state, latitude = float(latitude), 

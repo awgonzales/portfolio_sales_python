@@ -13,7 +13,7 @@ def get_data():
     """
     This function will get the data
     """
-    data = random_user(count = 10)
+    data = random_user(count = 100)
     return data
 
 #Dataframe
@@ -27,7 +27,7 @@ fake_data = {
     "Values": [20,80]
 }
 
-df = pd.DataFrame(get_data())
+# df = pd.DataFrame(get_data())
 fake_df = pd.DataFrame(fake_data)
 
 # Page configuration
@@ -42,16 +42,10 @@ sales_by_region = px.pie(
     data_frame = fake_data,
     values = "Values",
     names = "Category"
-    #values = df["region"]str.unique(),
-    #names = df["region"].unique()
 )
-
-#sidear
-sales_by_region.show()
 
 st.plotly_chart(sales_by_region)
 
-st_data = st_folium(us_locations, width=850)
 
 for person in get_data():
     # TODO: Insert HTML PopUP https://python-visualization.github.io/folium/latest/user_guide/ui_elements/popups.html
@@ -64,9 +58,9 @@ for person in get_data():
     photo = person["photo"]
     html = f"""
             <h5>{first_name} {last_name}</h5><br><img src='{photo}'>
-            <h6>{location}'>
+            <h6>'{location}'</h6>
     """
-    
+
     #print(type(latitude), type(longitude))
     folium.Marker(
         location = [latitude, longitude],
@@ -74,18 +68,20 @@ for person in get_data():
         popup = html
     ).add_to(us_locations)
 
-st.dataframe(get_data)
+st_data = st_folium(us_locations, width=850)
+
+st.dataframe(data)
 
 st.sidebar.header('Filters')
 state = st.sidebar.multiselect(
     label="Select State",
-    options = df['state'].unique(),
-    default = df['state'].unique()
+    options = data['state'].unique(),
+    default = data['state'].unique()
 
 )
 
 region = st.sidebar.multiselect(
     label = "Select Region",
-    options = df['region'].unique(),
-    default = df['region'].unique()
+    options = data['region'].unique(),
+    default = data['region'].unique()
 )
