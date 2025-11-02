@@ -22,6 +22,16 @@ data = pd.DataFrame(get_data())
 # start point
 us_locations = folium.Map(location = [40, -95], zoom_start = 4)
 
+# Add GeoJSON
+folium.GeoJson(
+    data = "NYC.geojson"
+    style_function=lambda feature: {
+        "fillColor": "#ffff00",
+        "color": "black",
+        "weight": 2,
+        "dashArray": "5, 5"}
+).add_to(us_locations)
+
 fake_data = {
     "Category": ["Yes", "No"],
     "Values": [20,80]
