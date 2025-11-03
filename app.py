@@ -24,7 +24,7 @@ us_locations = folium.Map(location = [40, -95], zoom_start = 4)
 
 # Add GeoJSON
 folium.GeoJson(
-    data = "NYC.geojson"
+    data = "NYC.geojson",
     style_function=lambda feature: {
         "fillColor": "#ffff00",
         "color": "black",
